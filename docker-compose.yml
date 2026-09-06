@@ -1,0 +1,39 @@
+services:
+  api:
+    build: .
+    image: rwo-api:1.0.0
+    env_file: .env
+    environment:
+      RWO_ENV: prod
+      RWO_DATABASE_URL: postgresql+asyncpg://rwo:${POSTGRES_PASSWORD:-rwo}@db:5432/rwo
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    restart: unless-stopped
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: rwo
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-rwo}
+      POSTGRES_DB: rwo
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U rwo -d rwo"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+volumes:
+  pgdata:
