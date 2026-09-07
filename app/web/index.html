@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Workforce Pass — Restaurant Scheduling</title>
+<link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+<header class="rail">
+  <div class="rail-title">
+    <h1>Workforce Pass</h1>
+    <p id="railStatus">not signed in</p>
+  </div>
+  <dl class="kpis" id="kpis" hidden>
+    <div><dt>projected labour</dt><dd id="kpiCost">—</dd></div>
+    <div><dt>shifts</dt><dd id="kpiShifts">—</dd></div>
+    <div><dt>uncovered hours</dt><dd id="kpiUnder">—</dd></div>
+    <div><dt>surplus hours</dt><dd id="kpiOver">—</dd></div>
+  </dl>
+</header>
+
+<main>
+  <section id="loginPanel" class="panel">
+    <h2>Sign in</h2>
+    <div class="field">
+      <label for="email">Email</label>
+      <input id="email" type="email" autocomplete="username" value="admin@rwo.app" />
+    </div>
+    <div class="field">
+      <label for="password">Password</label>
+      <input id="password" type="password" autocomplete="current-password" />
+    </div>
+    <button id="loginBtn" class="primary" type="button">Sign in</button>
+    <p class="note" id="loginNote"></p>
+  </section>
+
+  <section id="workPanel" hidden>
+    <div class="panel controls">
+      <h2>Plan a week</h2>
+      <div class="control-grid">
+        <div class="field"><label for="startDay">Week starts</label><input id="startDay" type="date" /></div>
+        <div class="field"><label for="days">Days</label><input id="days" type="number" min="1" max="21" value="7" /></div>
+        <div class="field"><label for="model">Forecast model</label><select id="model"></select></div>
+        <div class="field"><label for="solver">Solver</label>
+          <select id="solver"><option value="milp">MILP (cost optimal)</option><option value="greedy">Greedy (fast)</option></select>
+        </div>
+        <div class="field"><label for="rest">Min rest (h)</label><input id="rest" type="number" min="0" max="16" value="11" /></div>
+        <div class="field"><label for="penalty">Understaffing penalty</label><input id="penalty" type="number" min="0" max="1000" value="90" /></div>
+      </div>
+      <div class="actions">
+        <button id="trainBtn" type="button">Retrain forecast</button>
+        <button id="optimizeBtn" class="primary" type="button">Build schedule</button>
+        <button id="publishBtn" type="button" disabled>Publish</button>
+        <span class="note" id="runNote"></span>
+      </div>
+      <p class="note" id="metricNote"></p>
+    </div>
+
+    <div class="panel">
+      <h2>Coverage against forecast demand</h2>
+      <p class="hint">Each cell is one service hour. Depth of tone marks how far scheduled headcount sits below the forecast requirement.</p>
+      <div class="role-tabs" id="roleTabs"></div>
+      <div class="grid-wrap"><table class="coverage" id="coverageTable"></table></div>
+      <ul class="legend">
+        <li><span class="swatch ok"></span>covered</li>
+        <li><span class="swatch short1"></span>short 1</li>
+        <li><span class="swatch short2"></span>short 2+</li>
+        <li><span class="swatch surplus"></span>surplus</li>
+      </ul>
+    </div>
+
+    <div class="panel">
+      <h2>Shift roster</h2>
+      <div class="grid-wrap"><table class="roster" id="rosterTable"></table></div>
+    </div>
+
+    <div class="panel">
+      <h2>Hours and cost by employee</h2>
+      <div class="grid-wrap"><table class="roster" id="summaryTable"></table></div>
+    </div>
+  </section>
+</main>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

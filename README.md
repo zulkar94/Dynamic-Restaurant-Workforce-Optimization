@@ -4,9 +4,8 @@ Forecast hourly guest demand, translate it into per-role headcount targets, and 
 
 FastAPI backend · scikit-learn demand model · MILP scheduler (PuLP/CBC) with a greedy fallback · zero-build dashboard · Argon2id + rotating-JWT auth · Docker · CI with lint, types, tests, SAST, dependency CVEs, secret scan, and image scan.
 
+[![CI](https://github.com/zulkar94/Dynamic-Restaurant-Workforce-Optimization/actions/workflows/ci.yml/badge.svg)](https://github.com/zulkar94/Dynamic-Restaurant-Workforce-Optimization/actions/workflows/ci.yml)
 ![python](https://img.shields.io/badge/python-3.11%20|%203.12-blue)
-![tests](https://img.shields.io/badge/tests-54%20passing-brightgreen)
-![coverage](https://img.shields.io/badge/coverage-94%25-brightgreen)
 ![license](https://img.shields.io/badge/license-MIT-black)
 
 ---
