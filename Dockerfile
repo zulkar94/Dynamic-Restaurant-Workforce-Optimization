@@ -20,6 +20,8 @@ RUN apt-get update \
  && pip install --no-cache-dir --upgrade setuptools \
  && useradd --create-home --uid 10001 rwo
 WORKDIR /app
+# The default SQLite URL writes ./rwo.db, so the app user must own its workdir.
+RUN chown rwo:rwo /app
 COPY --from=builder /opt/venv /opt/venv
 COPY --chown=rwo:rwo app ./app
 COPY --chown=rwo:rwo scripts ./scripts
