@@ -91,6 +91,9 @@ jobs:
       - name: Build image
         run: docker build -t rwo-api:ci .
 
+      - name: DEBUG find setuptools
+        run: docker run --rm --user 0 --entrypoint sh rwo-api:ci -c 'find / -xdev \( -iname "setuptools*" -o -iname "*.whl" \) -not -path "*/_vendor/*" 2>/dev/null | grep -v "setuptools/" '
+
       - name: Trivy filesystem + image scan
         uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
         with:
