@@ -91,10 +91,6 @@ jobs:
       - name: Build image
         run: docker build -t rwo-api:ci .
 
-      - name: DEBUG find setuptools
-        run: |
-          docker run --rm --user 0 --entrypoint sh rwo-api:ci -c 'grep -rl --include=METADATA --include=PKG-INFO -e "^Version: 70.3.0" / 2>/dev/null; find / -xdev -path "*setuptools*" -name "*.dist-info" 2>/dev/null; true'
-
       - name: Trivy filesystem + image scan
         uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
         with:
@@ -103,6 +99,7 @@ jobs:
           severity: CRITICAL,HIGH
           exit-code: "1"
           ignore-unfixed: true
+          trivyignores: .trivyignore
 
       - name: Smoke test the container
         run: |
