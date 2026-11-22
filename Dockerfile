@@ -4,7 +4,7 @@ WORKDIR /build
 ENV PIP_NO_CACHE_DIR=1 PIP_DISABLE_PIP_VERSION_CHECK=1
 COPY requirements.txt .
 RUN python -m venv /opt/venv \
- && /opt/venv/bin/pip install --upgrade pip \
+ && /opt/venv/bin/pip install --upgrade pip setuptools \
  && /opt/venv/bin/pip install -r requirements.txt
 
 # ---------- runtime stage ----------
@@ -13,7 +13,12 @@ ENV PATH="/opt/venv/bin:$PATH" \
     PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     RWO_ENV=prod
-RUN useradd --create-home --uid 10001 rwo
+# Pull Debian security fixes (e.g. zlib) and drop the base image's old setuptools.
+RUN apt-get update \
+ && apt-get upgrade -y --no-install-recommends \
+ && rm -rf /var/lib/apt/lists/* \
+ && pip install --no-cache-dir --upgrade setuptools \
+ && useradd --create-home --uid 10001 rwo
 WORKDIR /app
 COPY --from=builder /opt/venv /opt/venv
 COPY --chown=rwo:rwo app ./app
