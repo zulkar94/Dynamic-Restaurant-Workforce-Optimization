@@ -1,0 +1,5 @@
+# CVE-2025-47273 (setuptools 70.3.0): reported from the python:3.12-slim base
+# layer only. The Dockerfile upgrades setuptools to 84.x in both /usr/local and
+# /opt/venv, and a filesystem search of the built image finds no 70.3.0 copy.
+# Remove this entry once the base image ships a patched setuptools.
+CVE-2025-47273

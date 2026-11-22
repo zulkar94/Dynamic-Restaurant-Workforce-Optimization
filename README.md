@@ -42,8 +42,8 @@ Reproduce with `make seed && make run`, then press **Build schedule** in the das
 ## Quick start
 
 ```bash
-git clone https://github.com/zulkarnine/restaurant-workforce-optimizer.git
-cd restaurant-workforce-optimizer
+git clone https://github.com/zulkar94/Dynamic-Restaurant-Workforce-Optimization.git
+cd Dynamic-Restaurant-Workforce-Optimization
 
 python -m venv .venv && source .venv/bin/activate
 make dev                 # editable install + dev tooling

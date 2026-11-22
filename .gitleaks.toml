@@ -1,0 +1,7 @@
+# Extend the default ruleset; test fixtures carry throwaway signing keys.
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Dummy secrets used only by the test suite"
+paths = ['''^tests/''']
